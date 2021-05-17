@@ -522,7 +522,7 @@ public class SistemaController {
 		public ModelAndView deletando(String tabela,Integer id) { //Função e alguns valores que recebe...
 			paginaAtual = "Imovel";
 			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = verificaLink("cadastrar_imoveis");
+			String link = verificaLink("branco");
 			itemMenu = link;
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
 			
@@ -536,6 +536,48 @@ public class SistemaController {
 					imovelDao.delete(objeto);
 					List<Imovel> imoveis = imovelDao.buscarTudo();
 					atualizarPagina = "/cadastrar_imoveis";
+				}
+				if(tabela.equals("usuario")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "Usuarios";
+					Usuario objeto = usuarioDao.findById(id).get();
+					objeto.setAtivo(false);
+					usuarioDao.delete(objeto);
+					List<Usuario> usuarios = usuarioDao.buscarTudo();
+					atualizarPagina = "/cadastrar_usuarios";
+				}
+				if(tabela.equals("imobiliaria")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "Imobiliária";
+					Imobiliaria objeto = imobiliariaDao.findById(id).get();
+					objeto.setAtivo(false);
+					imobiliariaDao.delete(objeto);
+					List<Imobiliaria> imobiliarias = imobiliariaDao.buscarTudo();
+					atualizarPagina = "/cadastrar_imobiliarias";
+				}
+				if(tabela.equals("comodidade")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "Comodidade";
+					Comodidade objeto = comodidadeDao.findById(id).get();
+					objeto.setAtivo(false);
+					comodidadeDao.save(objeto);
+					atualizarPagina = "/cadastrar_especificacoes";
+				}
+				if(tabela.equals("lazer")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "Lazer";
+					Lazer objeto = lazerDao.findById(id).get();
+					objeto.setAtivo(false);
+					lazerDao.save(objeto);
+					atualizarPagina = "/cadastrar_especificacoes";
+				}
+				if(tabela.equals("seguranca")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "Segurança";
+					Seguranca objeto = segurancaDao.findById(id).get();
+					objeto.setAtivo(false);
+					segurancaDao.save(objeto);
+					atualizarPagina = "/cadastrar_especificacoes";
 				}
 			}
 			modelAndView.addObject("atualizarPagina", atualizarPagina);
@@ -803,6 +845,131 @@ public class SistemaController {
 			
 			return modelAndView; 
 		}
+		
+		@RequestMapping(value = {"/cadastrar_usuarios","/cadastrar_usuarios_{idPesq}"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
+		public ModelAndView cadastrar_usuarios(@PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Usuario usuario) { //Função e alguns valores que recebe...
+			paginaAtual = "cadastrar_usuarios";
+			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+			String link = verificaLink("cadastrar_usuarios");
+			itemMenu = link;
+			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			if(logado) {
+				//Caso esteja logado.
+				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
+					Usuario u = new Usuario();
+					if(idAtualiza != null && !idAtualiza.equals("")) {
+						u = usuarioDao.findById(Integer.parseInt(idAtualiza)).get();
+					}
+					u.setAtivo(usuario.getAtivo());
+					u.setGravacao(usuario.getGravacao());
+					u.setLeitura(usuario.getLeitura());
+					u.setLogin(usuario.getLogin());
+					u.setNome(usuario.getNome());
+					u.setSenha(usuario.getSenha());
+					usuarioDao.save(u);
+				}
+				if(idPesq != null) {
+					Usuario u = usuarioDao.findById(Integer.parseInt(idPesq)).get();
+					modelAndView.addObject("u", u);
+				}
+				List<Usuario> usuarios = usuarioDao.findAll();
+				modelAndView.addObject("usuarios", usuarios);
+			}
+			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			modelAndView.addObject("usuario", usuarioSessao);
+			modelAndView.addObject("paginaAtual", paginaAtual); 
+			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			return modelAndView; 
+		}
+		
+		
+		
+		@RequestMapping(value = {"/cadastrar_imobiliarias","/cadastrar_imobiliarias_{idPesq}"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
+		public ModelAndView cadastrar_imobiliarias(@PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Imobiliaria imobiliaria) { //Função e alguns valores que recebe...
+			paginaAtual = "cadastrar_imobiliarias";
+			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+			String link = verificaLink("cadastrar_imobiliarias");
+			itemMenu = link;
+			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			if(logado) {
+				//Caso esteja logado.
+				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
+					Imobiliaria u = new Imobiliaria();
+					if(idAtualiza != null && !idAtualiza.equals("")) {
+						u = imobiliariaDao.findById(Integer.parseInt(idAtualiza)).get();
+					}
+					u.setAtivo(imobiliaria.getAtivo());
+					u.setCnpj(imobiliaria.getCnpj());
+					u.setCodigo(imobiliaria.getCodigo());
+					u.setContato(imobiliaria.getDescricao());
+					u.setDescricao(imobiliaria.getDescricao());
+					u.setNome(imobiliaria.getNome());
+					u.setResponsavel(imobiliaria.getResponsavel());
+					imobiliariaDao.save(u);
+				}
+				if(idPesq != null) {
+					Imobiliaria u = imobiliariaDao.findById(Integer.parseInt(idPesq)).get();
+					modelAndView.addObject("u", u);
+				}
+				List<Imobiliaria> imobiliarias = imobiliariaDao.findAll();
+				modelAndView.addObject("imobiliarias", imobiliarias);
+			}
+			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			modelAndView.addObject("usuario", usuarioSessao);
+			modelAndView.addObject("paginaAtual", paginaAtual); 
+			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			return modelAndView; 
+		}
+		
+		
+		
+		@RequestMapping(value = {"/cadastrar_especificacoes"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
+		public ModelAndView cadastrar_especificacoes(String acao, String tipo, String nome, String descricao) { //Função e alguns valores que recebe...
+			paginaAtual = "cadastrar_especificacoes";
+			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+			String link = verificaLink("cadastrar_especificacoes");
+			itemMenu = link;
+			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			if(logado) {
+				//Caso esteja logado.
+				if(acao != null && (acao.equals("salvar"))) {
+					if(tipo.equals("Comodidade")) {
+						Comodidade ob = new Comodidade();
+						ob.setAtivo(true);
+						ob.setDescricao(descricao);
+						ob.setNome(nome);
+						comodidadeDao.save(ob);
+					}
+					if(tipo.equals("Lazer")) {
+						Lazer ob = new Lazer();
+						ob.setAtivo(true);
+						ob.setDescricao(descricao);
+						ob.setNome(nome);
+						lazerDao.save(ob);
+					}
+					if(tipo.equals("Segurança")) {
+						Seguranca ob = new Seguranca();
+						ob.setAtivo(true);
+						ob.setDescricao(descricao);
+						ob.setNome(nome);
+						segurancaDao.save(ob);
+					}
+				}
+				
+				
+				modelAndView.addObject("lazer", lazerDao.buscarTudo());
+				modelAndView.addObject("comodidade", comodidadeDao.buscarTudo());
+				modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
+				
+				
+			}
+			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			modelAndView.addObject("usuario", usuarioSessao);
+			modelAndView.addObject("paginaAtual", paginaAtual); 
+			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			return modelAndView; 
+		}
+		
 }
 	
 	

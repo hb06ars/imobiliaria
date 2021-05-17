@@ -310,7 +310,7 @@ function acao(valor){
 					</div>
 					
 					
-				    <div class="span12"><label>&nbsp</label><button type="submi" class="btn btn-default waves-effect waves-light" >Cadastrar</button></div>
+				    <div class="span12"><label>&nbsp</label><button type="submi" class="btn btn-default waves-effect waves-light" >Salvar</button></div>
 				    <input type="hidden" name="acao" id="acao" value="leitura">
 				    
 				</div>
@@ -335,7 +335,6 @@ function acao(valor){
 
 
 
-<form action="/cadastrar_imoveis" id="formImovel" method="post" accept-charset="utf-8">
 	<div class="wrapper-page">
 		<div class="ex-page-content text-center">
 	    	<br><h2>Lista de Imóveis</h2><br>
@@ -436,7 +435,6 @@ function acao(valor){
 		</div>
 	</div>
 	
-</form>
 
 
 

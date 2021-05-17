@@ -67,11 +67,11 @@ function submitFormulario(){
 	                                </div>
 	                            </div>
 	                            
-	                            <c:if test="${i.imagem1 == null}">
-	                            	 <img data-original="img/semFoto.png" alt="" style="min-height:200px; max-height:200px" src="img/semFoto.png" class="img-hover">
+	                            <c:if test="${i.imagem1 == null || i.imagem1 == ''}">
+	                            	 <img data-original="img/semFoto.png" alt="" src="img/semFoto.png" class="img-hover">
 	                            </c:if>
-	                            <c:if test="${i.imagem1 != null}">
-	                            	<img data-original="${i.imagem1 }" alt="" style="min-height:200px; max-height:200px" src="${i.imagem1 }" class="img-hover">
+	                            <c:if test="${i.imagem1 != null && i.imagem1 != ''}">
+	                            	<img data-original="${i.imagem1 }" alt="" src="${i.imagem1 }" class="img-hover">
 	                            </c:if>
 	                            <div class="info">
 	                                <p>Código: ${i.id }</p>
