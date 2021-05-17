@@ -8,6 +8,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" href="img/logoIcone.png">
+    <link rel="apple-touch-icon" href="img/logoIcone.png" sizes="180x180">
+    <link rel="icon" href="img/logoIcone.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="img/logoIcone.png" sizes="16x16" type="image/png">
+    <link rel="shortcut icon" href="img/logoIcone.png" type="image/ico">
 	
     <!-- LOAD CSS FILES -->
     <link href="css/main.css" rel="stylesheet" type="text/css">
