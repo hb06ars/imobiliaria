@@ -8,13 +8,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" href="img/logoIcone.png">
-
+	
     <!-- LOAD CSS FILES -->
     <link href="css/main.css" rel="stylesheet" type="text/css">
 	
 	<!-- Pode dar ERRO -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
 	
 	<!-- SELECT2 -->
 	<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
