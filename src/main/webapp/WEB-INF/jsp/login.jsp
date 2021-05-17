@@ -24,7 +24,7 @@ function redirecionar(link){
             <div class="ex-page-content text-center">
             	<c:if test="${correto == null }">
 	                <h2>Área do Usuário</h2><br>
-	                <p class="text-muted">Login:</p><input type="text" name="login" required/>
+	                <p class="text-muted">Login:</p><input type="text" name="login" autofocus required/>
 	                <p class="text-muted">Senha:</p><input type="text" name="senha" required/>
 	                <p>
 	                <button type="submit" class="btn btn-default waves-effect waves-light" >Entrar</button>

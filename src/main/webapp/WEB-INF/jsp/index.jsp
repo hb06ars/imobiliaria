@@ -105,7 +105,7 @@ function submitFormulario(){
 	                  	<div id="property-search">
 	                    <h3><i class="icon-search icon-1x"></i>Procure aqui</h3>
 	                    <div class="group"> <span class="label">Código do Imóvel</span>
-	                      <input type="text" name="pesq_codigo" style="max-width:95%" value="${pesq_codigo}"/>
+	                      <input type="text" name="pesq_codigo" style="max-width:95%" value="${pesq_codigo}" autofocus/>
 	                    </div>
 	                    <div class="group"> <span class="label">Localização (Rua, Bairro, Cidade,etc)</span>
 	                      <input type="text" name="pesq_localizacao" style="max-width:95%" value="${pesq_localizacao}"/>

@@ -20,7 +20,10 @@
                 </div>
                 <div class="span6">
                     <h3>News</h3>
-                    Nenhum recado da imobiliária. 
+                    <c:if test="${news.size() == 0 }">Nenhum recado da imobiliária.</c:if>
+                    <c:forEach items="${news }" var="n">
+                    	<i class="fa fa-check" aria-hidden="true"></i> ${n.data }: ${n.descricao }<br>
+                    </c:forEach> 
                 </div>
                 <div class="span3">
                     <h3>Endereço</h3>
@@ -44,16 +47,6 @@
                 <div class="row">
                     <div class="span6">
                         &copy; Todos os Direitos reservados 2021 - Imobiliária
-                    </div>
-                    <div class="span6">
-                        <nav>
-                            <ul>
-                                <li><a href="/index">Home</a></li>
-                                <li><a href="/venda">Venda</a></li>
-                                <li><a href="/aluguel">Aluguel</a></li>
-                                <li><a href="/contato">Contato</a></li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>

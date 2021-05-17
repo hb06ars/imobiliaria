@@ -22,6 +22,7 @@ import brandaoti.sistema.dao.ComodidadeDao;
 import brandaoti.sistema.dao.ImobiliariaDao;
 import brandaoti.sistema.dao.ImovelDao;
 import brandaoti.sistema.dao.LazerDao;
+import brandaoti.sistema.dao.NewsDao;
 import brandaoti.sistema.dao.PerfilDao;
 import brandaoti.sistema.dao.SegurancaDao;
 import brandaoti.sistema.dao.StatusImovelDao;
@@ -33,6 +34,7 @@ import brandaoti.sistema.model.Comodidade;
 import brandaoti.sistema.model.Imobiliaria;
 import brandaoti.sistema.model.Imovel;
 import brandaoti.sistema.model.Lazer;
+import brandaoti.sistema.model.News;
 import brandaoti.sistema.model.ObjetoCidadeEstado;
 import brandaoti.sistema.model.Perfil;
 import brandaoti.sistema.model.Seguranca;
@@ -69,6 +71,8 @@ public class SistemaController {
 		private TipoImovelDao tipoImovelDao;
 		@Autowired
 		private TipoPagamentoDao tipoPagamentoDao;
+		@Autowired
+		private NewsDao newsDao;
 
 		
 		public static Boolean validacaoInicial = false;
@@ -494,6 +498,8 @@ public class SistemaController {
 			modelAndView.addObject("tipos", tipos);
 			modelAndView.addObject("acao", acao);
 			
+			modelAndView.addObject("news", newsDao.findAll());
+			
 			modelAndView.addObject("usuario", usuarioSessao);
 			return modelAndView; //retorna a variavel
 		}
@@ -579,11 +585,19 @@ public class SistemaController {
 					segurancaDao.save(objeto);
 					atualizarPagina = "/cadastrar_especificacoes";
 				}
+				if(tabela.equals("news")) {
+					modelAndView = new ModelAndView(link);
+					paginaAtual = "News";
+					News objeto = newsDao.findById(id).get();
+					newsDao.delete(objeto);
+					atualizarPagina = "/cadastrar_news";
+				}
 			}
 			modelAndView.addObject("atualizarPagina", atualizarPagina);
 			modelAndView.addObject("usuario", usuarioSessao);
 			modelAndView.addObject("paginaAtual", paginaAtual); 
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -597,7 +611,7 @@ public class SistemaController {
 			String link = "contato";
 			itemMenu = link;
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
-			
+			modelAndView.addObject("news", newsDao.findAll());
 			modelAndView.addObject("usuario", usuarioSessao);
 			return modelAndView; 
 		}
@@ -626,6 +640,7 @@ public class SistemaController {
 			modelAndView.addObject("tipoPagamento", tipoPagamento);
 			modelAndView.addObject("usuario", usuarioSessao);
 			modelAndView.addObject("imovel", i);
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -665,6 +680,7 @@ public class SistemaController {
 				if(usuarioSessao != null)
 					modelAndView.addObject("correto", "Bem vindo<br><br>" + usuarioSessao.getNome()+"!");
 			}
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -842,7 +858,7 @@ public class SistemaController {
 			modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
 			modelAndView.addObject("cidades", cidades);
 			modelAndView.addObject("usuario", usuarioSessao);
-			
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -879,6 +895,7 @@ public class SistemaController {
 			modelAndView.addObject("usuario", usuarioSessao);
 			modelAndView.addObject("paginaAtual", paginaAtual); 
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -918,6 +935,7 @@ public class SistemaController {
 			modelAndView.addObject("usuario", usuarioSessao);
 			modelAndView.addObject("paginaAtual", paginaAtual); 
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			modelAndView.addObject("news", newsDao.findAll());
 			return modelAndView; 
 		}
 		
@@ -955,13 +973,37 @@ public class SistemaController {
 						segurancaDao.save(ob);
 					}
 				}
-				
-				
 				modelAndView.addObject("lazer", lazerDao.buscarTudo());
 				modelAndView.addObject("comodidade", comodidadeDao.buscarTudo());
 				modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
-				
-				
+			}
+			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			modelAndView.addObject("usuario", usuarioSessao);
+			modelAndView.addObject("paginaAtual", paginaAtual); 
+			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
+			modelAndView.addObject("news", newsDao.findAll());
+			return modelAndView; 
+		}
+		
+		
+		
+		@RequestMapping(value = {"/cadastrar_news"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
+		public ModelAndView cadastrar_news(String acao, String descricao) { //Função e alguns valores que recebe...
+			paginaAtual = "cadastrar_news";
+			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+			String link = verificaLink("cadastrar_news");
+			itemMenu = link;
+			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			if(logado) {
+				//Caso esteja logado.
+				if(acao != null && (acao.equals("salvar"))) {
+						System.out.println("Salvar"+acao);
+						News ob = new News();
+						ob.setDescricao(descricao);
+						newsDao.save(ob);
+						modelAndView.addObject("n", ob);
+				}
+				modelAndView.addObject("news", newsDao.buscarTudo());
 			}
 			modelAndView.addObject("atualizarPagina", atualizarPagina);
 			modelAndView.addObject("usuario", usuarioSessao);
@@ -969,6 +1011,8 @@ public class SistemaController {
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
 			return modelAndView; 
 		}
+		
+		
 		
 }
 	

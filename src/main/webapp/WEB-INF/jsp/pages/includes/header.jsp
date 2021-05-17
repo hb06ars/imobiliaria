@@ -74,6 +74,7 @@
 	                                    <li><a href="/cadastrar_usuarios">Usuários</a></li>
 	                                    <li><a href="/cadastrar_imobiliarias">Imobiliárias</a></li>
 	                                    <li><a href="/cadastrar_especificacoes">Detalhes dos Imóveis</a></li>
+	                                    <li><a href="/cadastrar_news">Notícias</a></li>
 	                                </ul>
 	                            </li>
 							</c:if>
