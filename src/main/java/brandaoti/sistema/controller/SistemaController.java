@@ -752,12 +752,13 @@ public class SistemaController extends HttpServlet {
 			if(session.getAttribute("logado") != null) {
 				logado = (Boolean) session.getAttribute("logado");
 			}
-			System.out.println("idPesq: "+idAtualiza);
-			paginaAtual = "Cadastrar";
-			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = "cadastrar_imoveis";
+			String link = "deslogar";
 			String itemMenu = link;
 			if(logado && usuario != null) {
+				paginaAtual = "Cadastrar";
+				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+				link = "cadastrar_imoveis";
+				itemMenu = link;
 				if(acao != null && (acao.equals("salvar") || acao.equals("atualizar"))) {
 				// Salvando	
 					Imovel imovel = new Imovel();
@@ -940,12 +941,13 @@ public class SistemaController extends HttpServlet {
 			if(session.getAttribute("logado") != null) {
 				logado = (Boolean) session.getAttribute("logado");
 			}
-			paginaAtual = "cadastrar_usuarios";
-			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = "cadastrar_usuarios";
-			String itemMenu = link;
+			String link = "deslogar";
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
 			if(logado) {
+				paginaAtual = "cadastrar_usuarios";
+				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+				link = "cadastrar_usuarios";
+				modelAndView = new ModelAndView(link); //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
 					Usuario u = new Usuario();
@@ -991,12 +993,14 @@ public class SistemaController extends HttpServlet {
 			if(session.getAttribute("logado") != null) {
 				logado = (Boolean) session.getAttribute("logado");
 			}
-			paginaAtual = "cadastrar_imobiliarias";
-			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = "cadastrar_imobiliarias";
-			String itemMenu = link;
+			String link = "deslogar";
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
 			if(logado) {
+				paginaAtual = "cadastrar_imobiliarias";
+				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+				link = "cadastrar_imobiliarias";
+				String itemMenu = link;
+				modelAndView = new ModelAndView(link); //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
 					Imobiliaria u = new Imobiliaria();
@@ -1045,12 +1049,13 @@ public class SistemaController extends HttpServlet {
 			if(session.getAttribute("logado") != null) {
 				logado = (Boolean) session.getAttribute("logado");
 			}
-			paginaAtual = "cadastrar_especificacoes";
-			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = "cadastrar_especificacoes";
-			String itemMenu = link;
+			String link = "deslogar";
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
 			if(logado) {
+				link = "cadastrar_especificacoes";
+				paginaAtual = "cadastrar_especificacoes";
+				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+				modelAndView = new ModelAndView(link); //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar"))) {
 					if(tipo.equals("Comodidade")) {
@@ -1105,12 +1110,14 @@ public class SistemaController extends HttpServlet {
 			if(session.getAttribute("logado") != null) {
 				logado = (Boolean) session.getAttribute("logado");
 			}
-			paginaAtual = "cadastrar_news";
-			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-			String link = "cadastrar_news";
-			String itemMenu = link;
+			String link = "deslogar";
 			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
 			if(logado) {
+				paginaAtual = "cadastrar_news";
+				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
+				link = "cadastrar_news";
+				String itemMenu = link;
+				modelAndView = new ModelAndView(link); //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar"))) {
 						System.out.println("Salvar"+acao);
