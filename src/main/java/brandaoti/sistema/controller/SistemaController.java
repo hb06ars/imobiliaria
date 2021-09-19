@@ -548,6 +548,7 @@ public class SistemaController extends HttpServlet {
 			if(logado) {
 				//Caso esteja logado.
 				if(tabela.equals("imovel")) {
+					link = "/cadastrar_imoveis";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Clientes";
 					Imovel objeto = imovelDao.findById(id).get();
@@ -557,6 +558,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_imoveis";
 				}
 				if(tabela.equals("usuario")) {
+					link = "/cadastrar_usuarios";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Usuarios";
 					Usuario objeto = usuarioDao.findById(id).get();
@@ -566,6 +568,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_usuarios";
 				}
 				if(tabela.equals("imobiliaria")) {
+					link = "/cadastrar_imobiliarias";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Imobiliária";
 					Imobiliaria objeto = imobiliariaDao.findById(id).get();
@@ -575,6 +578,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_imobiliarias";
 				}
 				if(tabela.equals("comodidade")) {
+					link = "/cadastrar_especificacoes";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Comodidade";
 					Comodidade objeto = comodidadeDao.findById(id).get();
@@ -583,6 +587,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_especificacoes";
 				}
 				if(tabela.equals("lazer")) {
+					link = "/cadastrar_especificacoes";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Lazer";
 					Lazer objeto = lazerDao.findById(id).get();
@@ -591,6 +596,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_especificacoes";
 				}
 				if(tabela.equals("seguranca")) {
+					link = "/cadastrar_especificacoes";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "Segurança";
 					Seguranca objeto = segurancaDao.findById(id).get();
@@ -599,6 +605,7 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_especificacoes";
 				}
 				if(tabela.equals("news")) {
+					link = "/cadastrar_news";
 					modelAndView = new ModelAndView(link);
 					paginaAtual = "News";
 					News objeto = newsDao.findById(id).get();
@@ -606,10 +613,11 @@ public class SistemaController extends HttpServlet {
 					atualizarPagina = "/cadastrar_news";
 				}
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			
 			if(session.getAttribute("usuario") != null) {
 				modelAndView.addObject("usuario", usuario);
 			}
+			modelAndView.addObject("atualizarPagina", atualizarPagina);
 			modelAndView.addObject("paginaAtual", paginaAtual); 
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
 			modelAndView.addObject("news", newsDao.findAll());
@@ -969,7 +977,6 @@ public class SistemaController extends HttpServlet {
 				List<Usuario> usuarios = usuarioDao.findAll();
 				modelAndView.addObject("usuarios", usuarios);
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
 			modelAndView.addObject("usuario", usuario_submit);
 			modelAndView.addObject("paginaAtual", paginaAtual); 
 			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
@@ -1023,7 +1030,7 @@ public class SistemaController extends HttpServlet {
 				List<Imobiliaria> imobiliarias = imobiliariaDao.findAll();
 				modelAndView.addObject("imobiliarias", imobiliarias);
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			
 			if(session.getAttribute("usuario") != null) {
 				modelAndView.addObject("usuario", usuario);
 			}
@@ -1084,7 +1091,7 @@ public class SistemaController extends HttpServlet {
 				modelAndView.addObject("comodidade", comodidadeDao.buscarTudo());
 				modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			
 			if(session.getAttribute("usuario") != null) {
 				modelAndView.addObject("usuario", usuario);
 			}
@@ -1128,7 +1135,7 @@ public class SistemaController extends HttpServlet {
 				}
 				modelAndView.addObject("news", newsDao.buscarTudo());
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			
 			if(session.getAttribute("usuario") != null) {
 				modelAndView.addObject("usuario", usuario);
 			}
