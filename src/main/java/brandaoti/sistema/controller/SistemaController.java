@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import brandaoti.sistema.dao.CategoriaDao;
 import brandaoti.sistema.dao.ComodidadeDao;
@@ -80,18 +78,6 @@ public class SistemaController extends HttpServlet {
 		@Autowired
 		private NewsDao newsDao;
 
-		
-		//public static Boolean validacaoInicial = false;
-		//public static Usuario usuario;
-		//public static String atualizarPagina = null;
-		//public static Boolean logado = false;
-		//public static String itemMenu = "home";
-		//public static String paginaAtual = "Dashboard";
-		//public static String iconePaginaAtual = "fa fa-home";
-		//public static Integer mesSelecionado;
-		//public static Integer anoSelecionado;
-		//public static String senhaIncorreta = "";
-		
 		public void iniciar() {
 			if(usuarioDao.findAll().size() == 0) {
 				Usuario u = new Usuario();
@@ -334,7 +320,7 @@ public class SistemaController extends HttpServlet {
 		}
 		
 		@RequestMapping(value = {"/","/index"}, produces = "text/plain;charset=UTF-8", method = {RequestMethod.POST, RequestMethod.GET}) // Pagina de Vendas
-		public ModelAndView login(HttpServletRequest request, HttpServletResponse response, String acao ,String pesq_codigo,String pesq_localizacao , String pesq_salas, String pesq_tamanho , String pesq_tipoImovel ,String pesq_tipoPagamento ,String pesq_vagas, String pesq_quartos ,String pesq_banheiros ,String pesq_seguranca ,String pesq_comodidades ,String pesq_lazer ,String pesq_precoDe ,String pesq_precoAte) throws SQLException { //Funcao e alguns valores que recebe...
+		public void login(HttpServletRequest request, HttpServletResponse response, String acao ,String pesq_codigo,String pesq_localizacao , String pesq_salas, String pesq_tamanho , String pesq_tipoImovel ,String pesq_tipoPagamento ,String pesq_vagas, String pesq_quartos ,String pesq_banheiros ,String pesq_seguranca ,String pesq_comodidades ,String pesq_lazer ,String pesq_precoDe ,String pesq_precoAte) throws SQLException, ServletException, IOException { //Funcao e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			Usuario usuario = new Usuario();
 			if(session.getAttribute("usuario") != null) {
@@ -487,36 +473,36 @@ public class SistemaController extends HttpServlet {
 			
 			String link = "index";
 			String itemMenu = link;
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irÃ¡ acessar
-			modelAndView.addObject("pesq_codigo", pesq_codigo);
-			modelAndView.addObject("pesq_localizacao", pesq_localizacao);
-			modelAndView.addObject("pesq_salas", pesq_salas);
-			modelAndView.addObject("pesq_tamanho", pesq_tamanho);
-			modelAndView.addObject("pesq_tipoImovel", pesq_tipoImovel);
-			modelAndView.addObject("pesq_tipoPagamento", pesq_tipoPagamento);
-			modelAndView.addObject("pesq_vagas", pesq_vagas);
-			modelAndView.addObject("pesq_quartos", pesq_quartos);
-			modelAndView.addObject("pesq_banheiros", pesq_banheiros);
-			modelAndView.addObject("pesq_seguranca", pesq_seguranca);
-			modelAndView.addObject("pesq_comodidades", pesq_comodidades);
-			modelAndView.addObject("pesq_lazer", pesq_lazer);
-			modelAndView.addObject("pesq_precoDe", pesq_precoDe);
-			modelAndView.addObject("pesq_precoAte", pesq_precoAte);
+			 //JSP que irÃ¡ acessar
+			request.setAttribute("pesq_codigo", pesq_codigo);
+			request.setAttribute("pesq_localizacao", pesq_localizacao);
+			request.setAttribute("pesq_salas", pesq_salas);
+			request.setAttribute("pesq_tamanho", pesq_tamanho);
+			request.setAttribute("pesq_tipoImovel", pesq_tipoImovel);
+			request.setAttribute("pesq_tipoPagamento", pesq_tipoPagamento);
+			request.setAttribute("pesq_vagas", pesq_vagas);
+			request.setAttribute("pesq_quartos", pesq_quartos);
+			request.setAttribute("pesq_banheiros", pesq_banheiros);
+			request.setAttribute("pesq_seguranca", pesq_seguranca);
+			request.setAttribute("pesq_comodidades", pesq_comodidades);
+			request.setAttribute("pesq_lazer", pesq_lazer);
+			request.setAttribute("pesq_precoDe", pesq_precoDe);
+			request.setAttribute("pesq_precoAte", pesq_precoAte);
 			
-			modelAndView.addObject("imoveisSistema", imoveisSistema);
-			modelAndView.addObject("tipoPagamento", tipoPagamento);
-			modelAndView.addObject("segurancaLista", segurancaLista);
-			modelAndView.addObject("comodidadeLista", comodidadeLista);
-			modelAndView.addObject("lazerLista", lazerLista);
-			modelAndView.addObject("tipos", tipos);
-			modelAndView.addObject("acao", acao);
+			request.setAttribute("imoveisSistema", imoveisSistema);
+			request.setAttribute("tipoPagamento", tipoPagamento);
+			request.setAttribute("segurancaLista", segurancaLista);
+			request.setAttribute("comodidadeLista", comodidadeLista);
+			request.setAttribute("lazerLista", lazerLista);
+			request.setAttribute("tipos", tipos);
+			request.setAttribute("acao", acao);
 			
-			modelAndView.addObject("news", newsDao.findAll());
+			request.setAttribute("news", newsDao.findAll());
 			
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			return modelAndView; //retorna a variavel
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); //retorna a variavel
 		}
 		
 		
@@ -529,13 +515,13 @@ public class SistemaController extends HttpServlet {
 		
 		
 		@RequestMapping(value = "/deletando", method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView deletando(HttpServletRequest request, HttpServletResponse response, String tabela,Integer id) { //Função e alguns valores que recebe...
+		public void deletando(HttpServletRequest request, HttpServletResponse response, String tabela,Integer id) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String paginaAtual = "Imovel";
 			String iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 			String link = "branco";
 			String itemMenu = link;
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			String atualizarPagina = "";
 			Usuario usuario = new Usuario();
 			Boolean logado = false;
@@ -549,7 +535,7 @@ public class SistemaController extends HttpServlet {
 				//Caso esteja logado.
 				if(tabela.equals("imovel")) {
 					link = "/cadastrar_imoveis";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Clientes";
 					Imovel objeto = imovelDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -559,7 +545,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("usuario")) {
 					link = "/cadastrar_usuarios";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Usuarios";
 					Usuario objeto = usuarioDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -569,7 +555,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("imobiliaria")) {
 					link = "/cadastrar_imobiliarias";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Imobiliária";
 					Imobiliaria objeto = imobiliariaDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -579,7 +565,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("comodidade")) {
 					link = "/cadastrar_especificacoes";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Comodidade";
 					Comodidade objeto = comodidadeDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -588,7 +574,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("lazer")) {
 					link = "/cadastrar_especificacoes";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Lazer";
 					Lazer objeto = lazerDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -597,7 +583,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("seguranca")) {
 					link = "/cadastrar_especificacoes";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "Segurança";
 					Seguranca objeto = segurancaDao.findById(id).get();
 					objeto.setAtivo(false);
@@ -606,7 +592,7 @@ public class SistemaController extends HttpServlet {
 				}
 				if(tabela.equals("news")) {
 					link = "/cadastrar_news";
-					modelAndView = new ModelAndView(link);
+					
 					paginaAtual = "News";
 					News objeto = newsDao.findById(id).get();
 					newsDao.delete(objeto);
@@ -615,20 +601,20 @@ public class SistemaController extends HttpServlet {
 			}
 			
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
-			modelAndView.addObject("paginaAtual", paginaAtual); 
-			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("atualizarPagina", atualizarPagina);
+			request.setAttribute("paginaAtual", paginaAtual); 
+			request.setAttribute("iconePaginaAtual", iconePaginaAtual);
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
 		
 		
 		@RequestMapping(value = "/contato", method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView contato(HttpServletRequest request, HttpServletResponse response) { //Função e alguns valores que recebe...
+		public void contato(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -645,17 +631,17 @@ public class SistemaController extends HttpServlet {
 			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 			String link = "contato";
 			String itemMenu = link;
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
-			modelAndView.addObject("news", newsDao.findAll());
+			 //JSP que irá acessar.
+			request.setAttribute("news", newsDao.findAll());
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			return modelAndView; 
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 				
 		
 		@RequestMapping(value = "/imovel_{id}", method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView propriedade(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String id) { //Função e alguns valores que recebe...
+		public void propriedade(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String id) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -672,7 +658,7 @@ public class SistemaController extends HttpServlet {
 			iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 			String link = "propriedade";
 			String itemMenu = link;
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			System.out.println("ID: "+id);
 			Imovel i = imovelDao.findById(Integer.parseInt(id)).get();
 			
@@ -682,21 +668,21 @@ public class SistemaController extends HttpServlet {
 			List<Comodidade> comodidadeLista = comodidadeDao.buscarTudo();
 			List<Lazer> lazerLista = lazerDao.buscarTudo();
 			
-			modelAndView.addObject("segurancaLista", segurancaLista);
-			modelAndView.addObject("comodidadeLista", comodidadeLista);
-			modelAndView.addObject("lazerLista", lazerLista);
-			modelAndView.addObject("tipos", tipos);
-			modelAndView.addObject("tipoPagamento", tipoPagamento);
+			request.setAttribute("segurancaLista", segurancaLista);
+			request.setAttribute("comodidadeLista", comodidadeLista);
+			request.setAttribute("lazerLista", lazerLista);
+			request.setAttribute("tipos", tipos);
+			request.setAttribute("tipoPagamento", tipoPagamento);
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("imovel", i);
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("imovel", i);
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView login(HttpServletRequest request, HttpServletResponse response, String login, String senha) { //Função e alguns valores que recebe...
+		public void login(HttpServletRequest request, HttpServletResponse response, String login, String senha) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -730,24 +716,24 @@ public class SistemaController extends HttpServlet {
 					}
 				}	
 			}
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("atualizarPagina", atualizarPagina);
+			request.setAttribute("atualizarPagina", atualizarPagina);
 			if(!valido) {
-				modelAndView.addObject("incorreto", incorreto);
+				request.setAttribute("incorreto", incorreto);
 			} else {
 				if(usuario.getId() != null)
-					modelAndView.addObject("correto", "Bem vindo<br><br>" + usuario.getNome()+"!");
+					request.setAttribute("correto", "Bem vindo<br><br>" + usuario.getNome()+"!");
 			}
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
 		@RequestMapping(value = {"/cadastrar_imoveis","/cadastrar_imoveis_{idPesq}"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView cadastrar_imoveis(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza, String acao, String responsavel, String contatoResponsavel, String statusImovel, String tipoImovel, String categoria, String descricao, String bairro, String banheiros, String cep, String cidade, String estado, String condominio, String disponivel, String enderecoGoogleMap, String preco, String quartos, String rua, String salas, String tamanho, String vagas, String imagem1, String imagem2, String imagem3, String imagem4, String imagem5, String imagem6, String imagem7, String imagem8, String imobiliaria, String tipoPagamento, String lazer, String seguranca, String comodidade) { //Função e alguns valores que recebe...
+		public void cadastrar_imoveis(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza, String acao, String responsavel, String contatoResponsavel, String statusImovel, String tipoImovel, String categoria, String descricao, String bairro, String banheiros, String cep, String cidade, String estado, String condominio, String disponivel, String enderecoGoogleMap, String preco, String quartos, String rua, String salas, String tamanho, String vagas, String imagem1, String imagem2, String imagem3, String imagem4, String imagem5, String imagem6, String imagem7, String imagem8, String imobiliaria, String tipoPagamento, String lazer, String seguranca, String comodidade) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -910,36 +896,36 @@ public class SistemaController extends HttpServlet {
 			
 			
 			
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			List<Imovel> imoveis = imovelDao.buscarTudo();
 			if(idPesq != null) {
-				modelAndView = new ModelAndView("pesquisar_imoveis"); //JSP que irá acessar.
+				request.getRequestDispatcher("/WEB-INF/jsp/pesquisar_imoveis.jsp").forward(request, response);
 				Imovel i = imovelDao.findById(Integer.parseInt(idPesq)).get();
-				modelAndView.addObject("imoveis", i);
-				modelAndView.addObject("idPesq", idPesq);
+				request.setAttribute("imoveis", i);
+				request.setAttribute("idPesq", idPesq);
 			} else {
-				modelAndView.addObject("imoveis", imoveis);
+				request.setAttribute("imoveis", imoveis);
 			}
 			
-			modelAndView.addObject("usuarios", usuarios);
-			modelAndView.addObject("imobiliarias", imobiliariaDao.buscarTudo());
-			modelAndView.addObject("statusImovel", statusImovelDao.buscarTudo());
-			modelAndView.addObject("categorias", categoriaDao.buscarTudo());
-			modelAndView.addObject("tipoPagamento", tipoPagamentoDao.buscarTudo());
-			modelAndView.addObject("tipoImovel", tipoImovelDao.buscarTudo());
-			modelAndView.addObject("comodidades", comodidadeDao.buscarTudo());
-			modelAndView.addObject("lazer", lazerDao.buscarTudo());
-			modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
-			modelAndView.addObject("cidades", cidades);
+			request.setAttribute("usuarios", usuarios);
+			request.setAttribute("imobiliarias", imobiliariaDao.buscarTudo());
+			request.setAttribute("statusImovel", statusImovelDao.buscarTudo());
+			request.setAttribute("categorias", categoriaDao.buscarTudo());
+			request.setAttribute("tipoPagamento", tipoPagamentoDao.buscarTudo());
+			request.setAttribute("tipoImovel", tipoImovelDao.buscarTudo());
+			request.setAttribute("comodidades", comodidadeDao.buscarTudo());
+			request.setAttribute("lazer", lazerDao.buscarTudo());
+			request.setAttribute("seguranca", segurancaDao.buscarTudo());
+			request.setAttribute("cidades", cidades);
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		@RequestMapping(value = {"/cadastrar_usuarios","/cadastrar_usuarios_{idPesq}"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView cadastrar_usuarios(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Usuario usuario_submit) { //Função e alguns valores que recebe...
+		public void cadastrar_usuarios(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Usuario usuario_submit) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -950,12 +936,12 @@ public class SistemaController extends HttpServlet {
 				logado = (Boolean) session.getAttribute("logado");
 			}
 			String link = "deslogar";
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			if(logado) {
 				paginaAtual = "cadastrar_usuarios";
 				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 				link = "cadastrar_usuarios";
-				modelAndView = new ModelAndView(link); //JSP que irá acessar.
+				 //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
 					Usuario u = new Usuario();
@@ -972,22 +958,22 @@ public class SistemaController extends HttpServlet {
 				}
 				if(idPesq != null) {
 					Usuario u = usuarioDao.findById(Integer.parseInt(idPesq)).get();
-					modelAndView.addObject("u", u);
+					request.setAttribute("u", u);
 				}
 				List<Usuario> usuarios = usuarioDao.findAll();
-				modelAndView.addObject("usuarios", usuarios);
+				request.setAttribute("usuarios", usuarios);
 			}
-			modelAndView.addObject("usuario", usuario_submit);
-			modelAndView.addObject("paginaAtual", paginaAtual); 
-			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("usuario", usuario_submit);
+			request.setAttribute("paginaAtual", paginaAtual); 
+			request.setAttribute("iconePaginaAtual", iconePaginaAtual);
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
 		
 		@RequestMapping(value = {"/cadastrar_imobiliarias","/cadastrar_imobiliarias_{idPesq}"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView cadastrar_imobiliarias(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Imobiliaria imobiliaria) { //Função e alguns valores que recebe...
+		public void cadastrar_imobiliarias(HttpServletRequest request, HttpServletResponse response, @PathVariable (required = false) String idPesq, String idAtualiza,  String acao, Imobiliaria imobiliaria) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -1001,13 +987,13 @@ public class SistemaController extends HttpServlet {
 				logado = (Boolean) session.getAttribute("logado");
 			}
 			String link = "deslogar";
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			if(logado) {
 				paginaAtual = "cadastrar_imobiliarias";
 				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 				link = "cadastrar_imobiliarias";
 				String itemMenu = link;
-				modelAndView = new ModelAndView(link); //JSP que irá acessar.
+				 //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar") || idAtualiza != null)) {
 					Imobiliaria u = new Imobiliaria();
@@ -1025,25 +1011,25 @@ public class SistemaController extends HttpServlet {
 				}
 				if(idPesq != null) {
 					Imobiliaria u = imobiliariaDao.findById(Integer.parseInt(idPesq)).get();
-					modelAndView.addObject("u", u);
+					request.setAttribute("u", u);
 				}
 				List<Imobiliaria> imobiliarias = imobiliariaDao.findAll();
-				modelAndView.addObject("imobiliarias", imobiliarias);
+				request.setAttribute("imobiliarias", imobiliarias);
 			}
 			
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("paginaAtual", paginaAtual); 
-			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("paginaAtual", paginaAtual); 
+			request.setAttribute("iconePaginaAtual", iconePaginaAtual);
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
 		
 		@RequestMapping(value = {"/cadastrar_especificacoes"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView cadastrar_especificacoes(HttpServletRequest request, HttpServletResponse response, String acao, String tipo, String nome, String descricao) { //Função e alguns valores que recebe...
+		public void cadastrar_especificacoes(HttpServletRequest request, HttpServletResponse response, String acao, String tipo, String nome, String descricao) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -1057,12 +1043,12 @@ public class SistemaController extends HttpServlet {
 				logado = (Boolean) session.getAttribute("logado");
 			}
 			String link = "deslogar";
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			if(logado) {
 				link = "cadastrar_especificacoes";
 				paginaAtual = "cadastrar_especificacoes";
 				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
-				modelAndView = new ModelAndView(link); //JSP que irá acessar.
+				 //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar"))) {
 					if(tipo.equals("Comodidade")) {
@@ -1087,24 +1073,24 @@ public class SistemaController extends HttpServlet {
 						segurancaDao.save(ob);
 					}
 				}
-				modelAndView.addObject("lazer", lazerDao.buscarTudo());
-				modelAndView.addObject("comodidade", comodidadeDao.buscarTudo());
-				modelAndView.addObject("seguranca", segurancaDao.buscarTudo());
+				request.setAttribute("lazer", lazerDao.buscarTudo());
+				request.setAttribute("comodidade", comodidadeDao.buscarTudo());
+				request.setAttribute("seguranca", segurancaDao.buscarTudo());
 			}
 			
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("paginaAtual", paginaAtual); 
-			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
-			modelAndView.addObject("news", newsDao.findAll());
-			return modelAndView; 
+			request.setAttribute("paginaAtual", paginaAtual); 
+			request.setAttribute("iconePaginaAtual", iconePaginaAtual);
+			request.setAttribute("news", newsDao.findAll());
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
 		
 		@RequestMapping(value = {"/cadastrar_news"}, method = {RequestMethod.GET, RequestMethod.POST}) // Pagina de Alteração de Perfil
-		public ModelAndView cadastrar_news(HttpServletRequest request, HttpServletResponse response, String acao, String descricao) { //Função e alguns valores que recebe...
+		public void cadastrar_news(HttpServletRequest request, HttpServletResponse response, String acao, String descricao) throws ServletException, IOException { //Função e alguns valores que recebe...
 			HttpSession session = request.getSession();
 			String atualizarPagina = "";
 			String paginaAtual = "";
@@ -1118,30 +1104,30 @@ public class SistemaController extends HttpServlet {
 				logado = (Boolean) session.getAttribute("logado");
 			}
 			String link = "deslogar";
-			ModelAndView modelAndView = new ModelAndView(link); //JSP que irá acessar.
+			 //JSP que irá acessar.
 			if(logado) {
 				paginaAtual = "cadastrar_news";
 				iconePaginaAtual = "fa fa-user"; //Titulo do menuzinho.
 				link = "cadastrar_news";
 				String itemMenu = link;
-				modelAndView = new ModelAndView(link); //JSP que irá acessar.
+				 //JSP que irá acessar.
 				//Caso esteja logado.
 				if(acao != null && (acao.equals("salvar"))) {
 						System.out.println("Salvar"+acao);
 						News ob = new News();
 						ob.setDescricao(descricao);
 						newsDao.save(ob);
-						modelAndView.addObject("n", ob);
+						request.setAttribute("n", ob);
 				}
-				modelAndView.addObject("news", newsDao.buscarTudo());
+				request.setAttribute("news", newsDao.buscarTudo());
 			}
 			
 			if(session.getAttribute("usuario") != null) {
-				modelAndView.addObject("usuario", usuario);
+				request.setAttribute("usuario", usuario);
 			}
-			modelAndView.addObject("paginaAtual", paginaAtual); 
-			modelAndView.addObject("iconePaginaAtual", iconePaginaAtual);
-			return modelAndView; 
+			request.setAttribute("paginaAtual", paginaAtual); 
+			request.setAttribute("iconePaginaAtual", iconePaginaAtual);
+			request.getRequestDispatcher("/WEB-INF/jsp/"+link+".jsp").forward(request, response); 
 		}
 		
 		
